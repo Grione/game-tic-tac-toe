@@ -6,15 +6,17 @@ const initialBoard = [
   [null, null, null]
 ]
 
-export default function GameBoard() {
+export default function GameBoard({ onChange, activePlayer }) {
   const [board, setBoard] = useState(initialBoard);
 
   function handlerButtonClick(rowIndex, colIndex) {
-    setBoard((prevBoard)=> {
+    setBoard((prevBoard) => {
       const newBoard = [...prevBoard.map(innerArray => [...innerArray])];
-      newBoard[rowIndex][colIndex] = 'X';
-      return newBoard; 
-    })
+      newBoard[rowIndex][colIndex] = activePlayer;
+      return newBoard;
+    });
+
+    onChange();
   }
 
   return (
@@ -26,10 +28,10 @@ export default function GameBoard() {
               <li key={rowIndex}>
                 <ol>
                   {
-                    row.map((col, colIndex)=> {
+                    row.map((col, colIndex) => {
                       return (
                         <li key={colIndex}>
-                          <button onClick={()=> handlerButtonClick(rowIndex, colIndex)}>{col}</button>
+                          <button onClick={() => handlerButtonClick(rowIndex, colIndex)}>{col}</button>
                         </li>
                       )
                     })
