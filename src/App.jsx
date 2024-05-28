@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
+import Log from "./components/Log";
 
 function App() {
   const [playerActive, setPlayerActive] = useState('X');
@@ -30,6 +31,7 @@ function App() {
         </ol>
         <GameBoard onChange={handlerOnChange} turns={gameTurns} />
       </div>
+      <Log turns={gameTurns}/>
     </main>
   )
 }
