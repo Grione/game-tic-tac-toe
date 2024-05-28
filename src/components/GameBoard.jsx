@@ -1,22 +1,17 @@
-import { useState } from "react"
-
 const initialBoard = [
   [null, null, null],
   [null, null, null],
   [null, null, null]
 ]
 
-export default function GameBoard({ onChange, activePlayer }) {
-  const [board, setBoard] = useState(initialBoard);
+export default function GameBoard({ onChange, turns }) {
+  let board = initialBoard;
 
-  function handlerButtonClick(rowIndex, colIndex) {
-    setBoard((prevBoard) => {
-      const newBoard = [...prevBoard.map(innerArray => [...innerArray])];
-      newBoard[rowIndex][colIndex] = activePlayer;
-      return newBoard;
-    });
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
 
-    onChange();
+    board[row][col] = player;
   }
 
   return (
@@ -31,7 +26,7 @@ export default function GameBoard({ onChange, activePlayer }) {
                     row.map((col, colIndex) => {
                       return (
                         <li key={colIndex}>
-                          <button onClick={() => handlerButtonClick(rowIndex, colIndex)}>{col}</button>
+                          <button onClick={() => onChange(rowIndex, colIndex)}>{col}</button>
                         </li>
                       )
                     })
