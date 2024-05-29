@@ -23,6 +23,10 @@ function setActivePlayer(gameTurns) {
 
 function App() {
   const [gameTurns, setGameTurns] = useState([]);
+  const [players, setPlayers] = useState({
+    'X': 'Player 1',
+    'O': 'Player 2'
+  })
 
   const currentPlayer = setActivePlayer(gameTurns);
 
@@ -47,7 +51,7 @@ function App() {
       firstSquareSymbol === secondSquareSymbol &&
       firstSquareSymbol === thirdquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   }
 
@@ -73,14 +77,23 @@ function App() {
     setGameTurns([]);
   }
 
+  function handleSetPlayers(symbol, newName) {
+    setPlayers((prevPlayers) => {
+      return {
+        ...prevPlayers,
+        [symbol]: newName
+      }
+    })
+  }
+
   return (
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player initialName="Player 1" isActive={currentPlayer === 'X'} symbol="X" />
-          <Player initialName="Player 2" isActive={currentPlayer === 'O'} symbol="O" />
+          <Player initialName="Player 1" isActive={currentPlayer === 'X'} symbol="X" onPlayerChange={handleSetPlayers} />
+          <Player initialName="Player 2" isActive={currentPlayer === 'O'} symbol="O" onPlayerChange={handleSetPlayers} />
         </ol>
-        {(winner || isDraw) && <GameOver winner={winner} onRestart={handlerRestartGame}/>}
+        {(winner || isDraw) && <GameOver winner={winner} onRestart={handlerRestartGame} />}
         <GameBoard onChange={handlerOnChange} board={board} />
       </div>
       <Log turns={gameTurns} />
