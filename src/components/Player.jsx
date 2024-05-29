@@ -16,9 +16,24 @@ export default function Player({ initialName, symbol, isActive, onPlayerChange }
     setPlayerName(event.target.value);
   }
 
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      handleEditClick();
+    }
+  }
+
   let playerEditedName = <span className="player-name">{playerName}</span>;
 
-  if (isEditing) playerEditedName = <input type="text" value={playerName} required onChange={handleEditInput} />
+  if (isEditing) {
+    playerEditedName = <input
+      type="text"
+      value={playerName}
+      required
+      onChange={handleEditInput}
+      onKeyDown={handleKeyDown}
+      autoFocus
+    />
+  }
 
   return (
     <li className={isActive ? 'active' : undefined}>
